@@ -10,8 +10,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 public class Base {
-	public WebDriver driver;
-	public Properties prop;
+	public static WebDriver driver;
+	public static Properties prop;
 
 	public WebDriver init_driver(String brouserName) {
 		if (brouserName.equals("chrome")) {
