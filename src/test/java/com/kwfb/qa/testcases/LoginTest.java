@@ -1,8 +1,8 @@
-package com.kbfb.qa.testcases;
+package com.kwfb.qa.testcases;
 
 import org.testng.annotations.Test;
 
-import com.kbfb.qa.util.ExecutionEngine;
+import com.kwfb.qa.util.ExecutionEngine;
 
 public class LoginTest {
 	public ExecutionEngine exeEngine;

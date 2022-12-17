@@ -1,4 +1,4 @@
-package com.kbfb.qa.base;
+package com.kwfb.qa.base;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

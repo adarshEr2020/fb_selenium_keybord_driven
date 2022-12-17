@@ -1,4 +1,4 @@
-package com.kbfb.qa.util;
+package com.kwfb.qa.util;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,7 +13,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import com.kbfb.qa.base.Base;
+import com.kwfb.qa.base.Base;
 
 public class ExecutionEngine extends Base {
 	public static String SENERIO_SHEET_PATH = "E:\\ADARSH Current data\\keybord_driven_fb\\src\\main\\java\\com\\kbfb\\qa\\fb_senerioes\\fb_keyboad_senerioes.xlsx";
@@ -22,13 +22,10 @@ public class ExecutionEngine extends Base {
 	public static Sheet sheet;
 	public static WebDriver driver;
 	public static Properties prop;
-	WebElement element;
+	public WebElement element;
 	public static Base base;
 
 	public void startExecution(String sheetname) {
-		String locatorName = null;
-		String locatorValue = null;
-
 		FileInputStream file = null;
 
 		try {
@@ -48,19 +45,13 @@ public class ExecutionEngine extends Base {
 		int k = 0;
 		for (int i = 0; i < sheet.getLastRowNum(); i++) {
 			try {
-				
-				String locatorColValue = sheet.getRow(i + 1).getCell(k + 1).toString().trim(); // id = username
-//				System.out.println("locator Col Value:   " + locatorColValue);
-				if (!locatorColValue.equalsIgnoreCase("NA")) {
-					locatorName = locatorColValue.split("=")[0].trim(); // id
-					System.out.println("locator name:   " + locatorName);
-					locatorValue = locatorColValue.split("=")[1].trim();// username
-				}
 
-				String action = sheet.getRow(i + 1).getCell(k + 2).toString().trim();
-//				System.out.println("action of :   " + action);
-				String value = sheet.getRow(i + 1).getCell(k + 3).toString().trim();
-//				System.out.println("value of :   " + value);
+				String locatorType = sheet.getRow(i + 1).getCell(k + 1).toString().trim();
+				String locatorValue = sheet.getRow(i + 1).getCell(k + 2).toString().trim();
+				String action = sheet.getRow(i + 1).getCell(k + 3).toString().trim();
+				String value = sheet.getRow(i + 1).getCell(k + 4).toString().trim();
+
+				System.out.println(locatorType +":"+ locatorValue);
 				switch (action) {
 				case "open browser":
 					base = new Base();
@@ -83,43 +74,74 @@ public class ExecutionEngine extends Base {
 					break;
 
 				case "exit":
+					driver.quit();
 					break;
 
 				default:
 					break;
 				}
 
-				switch (locatorName) {
+				switch (locatorType) {
 				case "id":
-					WebElement element = driver.findElement(By.id(locatorValue));
+					element = driver.findElement(By.id(locatorValue));
+					if (action.equalsIgnoreCase("sendkeys")) {
+						element.clear();
+						Thread.sleep(3000);
+						element.sendKeys(value);
+					} else if (action.equalsIgnoreCase("click")) {
+						Thread.sleep(3000);
+						element.click();
+					} else if (action.equalsIgnoreCase("isDisplayed")) {
+						element.isDisplayed();
+					}
+					locatorType = null;
+					break;
+
+				case "className":
+					element = driver.findElement(By.id(locatorValue));
 					if (action.equalsIgnoreCase("sendkeys")) {
 						element.clear();
 						element.sendKeys(value);
-					} else if(action.equalsIgnoreCase("click")){
+					} else if (action.equalsIgnoreCase("click")) {
 						element.click();
+					} else if (action.equalsIgnoreCase("isDisplayed")) {
+						element.isDisplayed();
 					}
-					locatorName = null;
+					locatorType = null;
 					break;
 
 				case "name":
 					element = driver.findElement(By.name(locatorValue));
 					element.click();
-					locatorName = null;
+					locatorType = null;
+					break;
+
+				case "xpath":
+					element = driver.findElement(By.id(locatorValue));
+					if (action.equalsIgnoreCase("sendkeys")) {
+						element.clear();
+						element.sendKeys(value);
+					} else if (action.equalsIgnoreCase("click")) {
+						Thread.sleep(3000);
+						element.click();
+					} else if (action.equalsIgnoreCase("isDisplayed")) {
+						element.isDisplayed();
+					}
+					locatorType = null;
 					break;
 
 				case "linkText":
 					element = driver.findElement(By.linkText(locatorValue));
 					element.click();
-					locatorName = null;
+					locatorType = null;
 					break;
 
 				default:
 					break;
 				}
 			} catch (Exception e) {
-			
-			}
 
+			}
 		}
 	}
 }
