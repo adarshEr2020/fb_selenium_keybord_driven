@@ -10,13 +10,14 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.openqa.selenium.By;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.kwfb.qa.base.Base;
 
 public class ExecutionEngine extends Base {
-	public static String SENERIO_SHEET_PATH = "E:\\ADARSH Current data\\keybord_driven_fb\\src\\main\\java\\com\\kbfb\\qa\\fb_senerioes\\fb_keyboad_senerioes.xlsx";
+	public static String SENERIO_SHEET_PATH = "E:\\ADARSH Current data\\keyword_driven_fb\\src\\main\\java\\com\\kwfb\\qa\\fb_senerioes\\fb_keyboad_senerioes.xlsx";
 
 	public static Workbook book;
 	public static Sheet sheet;
@@ -51,7 +52,7 @@ public class ExecutionEngine extends Base {
 				String action = sheet.getRow(i + 1).getCell(k + 3).toString().trim();
 				String value = sheet.getRow(i + 1).getCell(k + 4).toString().trim();
 
-				System.out.println(locatorType +":"+ locatorValue);
+				System.out.println(locatorType + ":" + locatorValue);
 				switch (action) {
 				case "open browser":
 					base = new Base();
@@ -144,4 +145,5 @@ public class ExecutionEngine extends Base {
 			}
 		}
 	}
+
 }
